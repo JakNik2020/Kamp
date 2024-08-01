@@ -46,9 +46,8 @@ class Bullet:
             self.cooldown = self.cooldown2
 
     def pomeraj_se(self, x_mouse, y_mouse):
-        self.x += self.vel_X / 100
-
-        self.y += self.vel_Y / 100
+        self.x += x_mouse / 100
+        self.y += y_mouse / 100
 
 
 class Player:
@@ -154,47 +153,7 @@ milan = Enemy(100, 700, "gunner", 100, 100)
 stvar = Bullet(100, 100, [x_mouse, y_mouse], 10, 1)
 
 
-width, height = 1920, 1080
+width, height = 1080, 800
 window = pg.display.set_mode((width, height))
 
 pg.display.set_caption("iglica")
-
-
-running = True
-while running:
-    window.fill(zelengrad)
-    events = pg.event.get()
-    for event in events:
-        if event.type == pg.QUIT:
-            running = False
-        elif event.type == pg.MOUSEBUTTONDOWN:
-            x_mouse, y_mouse = pg.mouse.get_pos()
-            iglac.shoot((x_mouse, y_mouse))
-
-    if iglac.hp > 0:
-        iglac.smaraj()
-        stvar.bullet_colided(iglac)
-        smarac.smaraj()
-        milan.smaraj()
-        milan.run(iglac)
-        milan.shoot(iglac)
-        milan.cltaj(x_mouse, y_mouse, iglac)
-        smarac.run(iglac)
-        stvar.smaraj()
-        iglac.cltaj(x_mouse, y_mouse)
-        stvar.pomeraj_se(iglac.x, iglac.y)
-
-    # milan.gledaj(iglac, cigan)
-    keys = pg.key.get_pressed()
-    if keys[pg.K_d]:
-        iglac.right()
-    if keys[pg.K_a]:
-        iglac.left()
-    if keys[pg.K_w]:
-        iglac.up()
-    if keys[pg.K_s]:
-        iglac.down()
-    stvar.cooldown -= 1
-    print(iglac.hp, stvar.cooldown)
-    clock.tick(fps)
-    pg.display.update()
