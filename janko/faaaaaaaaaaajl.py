@@ -48,8 +48,10 @@ class soba:
         self.ulaz = ulaz
         self.izlaz = izlaz
         self.broj = broj
-        self.x_kordinata = 0
-        self.y_kordinata = 0
+        self.x_kordinata_vrata = 0
+        self.y_kordinata_vrata = 0
+        self.x_kordinata_vrata2 = 0
+        self.y_kordinata_vrata2 = 0
 
     def izaberi(self):
         self.vrsta = randint(0, 18)
@@ -57,17 +59,59 @@ class soba:
 
     def ulaz_izlaz(self):
         if self.ulaz == 0:
-            self.x_kordinata = height // 2
-            self.y_kordinata = 0
+            self.x_kordinata_vrata = height // 2
+            self.y_kordinata_vrata = -20
 
         elif self.ulaz == 1:
-            self.x_kordinata = height // 2
-            self.y_kordinata = height
+            self.x_kordinata_vrata = height // 2
+            self.y_kordinata_vrata = height - 54
+
+        elif self.ulaz == 2:
+            self.x_kordinata_vrata = 0
+            self.y_kordinata_vrata = height // 2
+
+        elif self.ulaz == 3:
+            self.x_kordinata_vrata = height
+            self.y_kordinata_vrata = width // 2
+
+        if self.izlaz == 0:
+            self.x_kordinata_vrata2 = height // 2
+            self.y_kordinata_vrata2 = -20
+
+        elif self.izlaz == 1:
+            self.x_kordinata_vrata2 = height // 2
+            self.y_kordinata_vrata2 = height - 54
+
+        elif self.izlaz == 2:
+            self.x_kordinata_vrata2 = 54
+            self.y_kordinata_vrata2 = width // 2
+
+        elif self.izlaz == 3:
+            self.x_kordinata_vrata2 = height
+            self.y_kordinata_vrata2 = width // 2
 
     def postoji(self):
         window.blit(self.loading, (0, 0))
-        self.ulaz = pg.image.load("pozadine\prolaz(gore-dole).png")
-        window.blit(self.ulaz, (height // 2, height - 50))
+        self.ulazslik = pg.image.load("pozadine\prolaz(gore-dole).png")
+        self.ulazzslik = pg.image.load("pozadine\prolaz(desno-levo).png")
+
+        if self.ulaz == 0 or self.ulaz == 1:
+            window.blit(self.ulazslik, (self.x_kordinata_vrata, self.y_kordinata_vrata))
+
+        elif self.ulaz == 2 or self.ulaz == 3:
+            window.blit(
+                self.ulazzslik, (self.x_kordinata_vrata, self.y_kordinata_vrata)
+            )
+
+        if self.izlaz == 0 or self.izlaz == 1:
+            window.blit(
+                self.ulazslik, (self.x_kordinata_vrata2, self.y_kordinata_vrata2)
+            )
+
+        elif self.izlaz == 2 or self.izlaz == 3:
+            window.blit(
+                self.ulazzslik, (self.x_kordinata_vrata2, self.y_kordinata_vrata2)
+            )
 
     def generate(self):
         self
@@ -207,7 +251,7 @@ iglac = Player(500, 500, 100, 100)
 vojislav = Enemy(100, 100, "runner", 100, 100)
 milan = Enemy(100, 700, "gunner", 100, 100)
 stvar = Bullet(100, 100, [x_mouse, y_mouse], 10, 1)
-sobica = soba(1, 1, 1)
+sobica = soba(2, 3, 1)
 
 window = pg.display.set_mode((width, height))
 
@@ -246,6 +290,8 @@ while running:
         window.blit(hp, (625, 50))
     else:
         window.blit(text_surface, (300, 375))
+
+    # if iglac.x >= height:
 
     keys = pg.key.get_pressed()
     if keys[pg.K_d]:
