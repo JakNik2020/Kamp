@@ -48,8 +48,10 @@ class soba:
         self.ulaz = ulaz
         self.izlaz = izlaz
         self.broj = broj
-        self.x_kordinata = 0
-        self.y_kordinata = 0
+        self.x_kordinata_vrata1 = 0
+        self.y_kordinata_vrata1 = 0
+        self.x_kordinata_vrata2 = 0
+        self.y_kordinata_vrata2 = 0
 
     def izaberi(self):
         self.vrsta = randint(0, 18)
@@ -57,17 +59,26 @@ class soba:
 
     def ulaz_izlaz(self):
         if self.ulaz == 0:
-            self.x_kordinata = height // 2
-            self.y_kordinata = 0
+            self.x_kordinata_vrata1 = height // 2
+            self.y_kordinata_vrata1 = 0
 
         elif self.ulaz == 1:
-            self.x_kordinata = height // 2
-            self.y_kordinata = height
+            self.x_kordinata_vrata1 = height // 2
+            self.y_kordinata_vrata1 = height - 50
+
+        if self.izlaz == 0:
+            self.x_kordinata_vrata2 = height // 2
+            self.y_kordinata_vrata2 = 0
+
+        elif self.izlaz == 1:
+            self.x_kordinata_vrata2 = height // 2
+            self.y_kordinata_vrata2 = height - 50
 
     def postoji(self):
         window.blit(self.loading, (0, 0))
         self.ulaz = pg.image.load("pozadine\prolaz(gore-dole).png")
-        window.blit(self.ulaz, (height // 2, height - 50))
+        window.blit(self.ulaz, (self.x_kordinata_vrata1, self.y_kordinata_vrata1))
+        window.blit(self.ulaz, (self.x_kordinata_vrata2, self.y_kordinata_vrata2))
 
     def generate(self):
         self
@@ -207,7 +218,7 @@ iglac = Player(500, 500, 100, 100)
 vojislav = Enemy(100, 100, "runner", 100, 100)
 milan = Enemy(100, 700, "gunner", 100, 100)
 stvar = Bullet(100, 100, [x_mouse, y_mouse], 10, 1)
-sobica = soba(1, 1, 1)
+sobica = soba(0, 0, 1)
 
 window = pg.display.set_mode((width, height))
 
