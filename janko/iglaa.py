@@ -55,6 +55,7 @@ sobe = [
 # dodaj font i napisi da si izgubio oko 130 linije
 
 
+
 class soba:
     def __init__(self, ulaz, izlaz, broj):
         self.ulaz = ulaz
@@ -128,7 +129,9 @@ class soba:
             )
 
     def generate(self):
-        if self.ulaz == 0:
+        if self.izlaz == 0:
+            self.izaberi()
+            
             print(1)
         self
 
@@ -288,7 +291,7 @@ iglac = Player(100, 500, 1000, 100)
 vojislav = Enemy(100, 100, "runner", 100, 100)
 milan = Enemy(100, 700, "gunner", 100, 100)
 stvar = Bullet(100, 100, [x_mouse, y_mouse], 10, 1)
-sobica = soba(0, 2, 1)
+sobica = soba(0, 3, 1)
 
 window = pg.display.set_mode((width, height))
 
@@ -353,15 +356,27 @@ while running:
                 iglac.y = Y_0_KORDINATA_VRATA + SOBA_MIN_Y + 30
                 sobica.izaberi()
 
-            if (  # OD OVDE POCINJU BAGOVI
+            if (
                 iglac.y >= Y_2_KORDINATA_VRATA
                 and iglac.y <= Y_2_KORDINATA_VRATA + 192
-                and iglac.x <= SOBA_MAX_X - 50
+                and iglac.x <= SOBA_MIN_X + 50
                 and sobica.izlaz == 2
             ):
                 iglac.x = X_3_KORDINATA_VRATA + 92
                 iglac.y = Y_3_KORDINATA_VRATA + SOBA_MIN_X + 30
                 sobica.izaberi()
+            
+            if (  # OD OVDE POCINJU BAGOVI
+                iglac.y >= Y_3_KORDINATA_VRATA
+                and iglac.y <= Y_3_KORDINATA_VRATA + 192
+                and iglac.x >= SOBA_MAX_X - 50
+                and sobica.izlaz == 3
+            ):
+                iglac.x = SOBA_MIN_X + 50
+                iglac.y = Y_2_KORDINATA_VRATA + 92
+                sobica.izaberi()
+            
+            
 
     else:
         window.blit(text_surface, (300, 375))
